@@ -107,7 +107,7 @@ position: relative;
 }
 
 .main__wrap {
-  flex-grow: 1;
+  height: 355px;
   display: flex;
   justify-content: space-between;
 }

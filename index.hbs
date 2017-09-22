@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{{htmlWebpackPlugin.options.title}}</title>
+    <script src="https://vk.com/js/api/openapi.js?147" type="text/javascript"></script>
 </head>
 <body>
     <div class='wrapper'>
@@ -25,12 +26,7 @@
             <div class="main__wrap">
                 <section class="main__section main__section_left">
                     <h2 class="main__title">Ваши друзья</h2>
-                    <ul class="main__list">
-                        <li class="friend">
-                            <div class="friend__foto-wrap"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREmN1hoq7Utb5zJNNBT9Jthxqb5oWhncei8GXyGosk2vgnc2qNgA" alt="Фото" class="friend__foto"></div>
-                            <span class="friend__name">Вова Путин</span>
-                            <span class="icon-plus friend__icon"></span>
-                        </li>
+                    <ul class="main__list" id="mainList">
                     </ul>
                 </section>
                 <section class="main__section main__section_right">
