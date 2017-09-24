@@ -9,6 +9,19 @@ class FriendsFilter {
         this.secondContainer = document.getElementById('secondList');
     }
 
+    init() {
+        this.addListeners();
+        this.dragAndDropInit();
+
+        window.addEventListener('load', () => {
+            if (localStorage.mainList) {
+                this.renderFromLocal();
+            } else {
+                this.getFriendList();
+            }
+        }) 
+    }
+
     render(list) {
         this.mainContainer.innerHTML = template(list);
     }
@@ -21,10 +34,47 @@ class FriendsFilter {
         this.secondContainer.innerHTML = template(secondContent);
     }
 
+    csvExport() {
+        let csvContent = 'data:text/csv;charset=utf-8,\uFEFF',
+            mainContent = document.querySelectorAll('#mainList .friend'),
+            secondContent = document.querySelectorAll('#secondList .friend');
+
+        function generateCSV(content, header) {
+            let arr = [];
+            
+            for (var i = 0; i < content.length; i++) {
+                if (getComputedStyle(content[i]).display === 'flex') {
+                    arr.push(content[i].innerText.trim());
+                } 
+            }
+
+            arr.unshift(header + '\n');
+
+            return csvContent + arr.join('\n');
+        }
+
+        function downloadCSV(content) {
+            let encodedUri = encodeURI(content),
+                link = document.createElement('a'),
+                footer = document.getElementById('footer');
+
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', 'friendList.csv');
+            link.style.display = 'none';
+            footer.appendChild(link);
+            
+            link.click();
+        }
+
+        downloadCSV(generateCSV([...mainContent], 'Ваши друзья'));
+        downloadCSV(generateCSV([...secondContent], 'Друзья в списке'));
+    }
+
     addListeners() {
         let mainWrap = document.getElementById('mainWrap'),
             closeWindow = document.getElementById('closeWindow'),
             saveButton = document.getElementById('saveButton'),
+            exportButton = document.getElementById('exportButton'),
             refreshButton = document.getElementById('refreshButton'),
             mainHead = document.getElementById('mainHead'),
             mainInput = document.getElementById('mainInput'),
@@ -110,6 +160,11 @@ class FriendsFilter {
             this.getFriendList();
         })
 
+        // export button
+        exportButton.addEventListener('click', () => {
+            this.csvExport();
+        })
+
         // inputs
         mainHead.addEventListener('keyup', (e) => {
             if (e.keyCode === 16) {
@@ -165,7 +220,7 @@ class FriendsFilter {
                 filter.render(result);
             })
             .catch((error) => {
-                console.log(error);
+                console.log('Произошла ошибка ' + error.message);
             })
     }
 
@@ -200,13 +255,4 @@ class FriendsFilter {
 
 let filter = new FriendsFilter();
 
-filter.addListeners();
-filter.dragAndDropInit();
-
-window.addEventListener('load', function() {
-    if (localStorage.mainList) {
-        filter.renderFromLocal();
-    } else {
-        filter.getFriendList();
-    }
-});
+filter.init();
