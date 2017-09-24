@@ -9,21 +9,21 @@
     <div class='wrapper'>
         <header class='header'>
             <h1 class='header__title'>Выберите друзей</h1>
-            <span class="icon-close header__icon"></span>
+            <span class="icon-close header__icon" id="closeWindow"></span>
         </header>
     
-        <main class="main">
-            <div class="main__head">
+        <main class="main" >
+            <div class="main__head" id="mainHead">
                 <label class="main__label">
                     <span class="icon-search main__search-icon"></span>
-                    <input class="main__input" type="text" placeholder="Начните вводить имя друга">
+                    <input class="main__input" type="text" placeholder="Начните вводить имя друга" id="mainInput">
                 </label>
                 <label class="main__label">
                     <span class="icon-search main__search-icon"></span>
-                    <input class="main__input" type="text" placeholder="Начните вводить имя друга">
+                    <input class="main__input" type="text" placeholder="Начните вводить имя друга" id="secondInput">
                 </label>
             </div>
-            <div class="main__wrap">
+            <div class="main__wrap" id="mainWrap">
                 <section class="main__section main__section_left">
                     <h2 class="main__title">Ваши друзья</h2>
                     <ul class="main__list" id="mainList">
@@ -31,19 +31,15 @@
                 </section>
                 <section class="main__section main__section_right">
                     <h2 class="main__title">Друзья в списке</h2>
-                    <ul class="main__list">
-                        <li class="friend">
-                            <div class="friend__foto-wrap"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREmN1hoq7Utb5zJNNBT9Jthxqb5oWhncei8GXyGosk2vgnc2qNgA" alt="Фото" class="friend__foto"></div>
-                            <span class="friend__name">Вова Путин</span>
-                            <span class="icon-close friend__icon"></span>
-                        </li>
+                    <ul class="main__list main__list_second" id="secondList">
                     </ul>
                 </section>
             </div>
         </main>
     
         <footer class="footer">
-            <button class="footer__button">Сохранить</button>
+            <button class="footer__button" id="refreshButton">Обновить из VK</button>
+            <button class="footer__button" id="saveButton">Сохранить</button>
         </footer>
     </div>
 </body>
