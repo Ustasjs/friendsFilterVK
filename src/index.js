@@ -67,6 +67,9 @@ class FriendsFilter {
 
         // add and close buttons
         mainWrap.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('friend__icon')) {
+                return;
+            }
 
             if (e.target.closest('ul').getAttribute('id') === 'mainList') {
                 let friend = e.target.closest('.friend');

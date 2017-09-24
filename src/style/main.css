@@ -112,21 +112,26 @@ position: relative;
   justify-content: space-between;
 }
 
-.main__section{
+.main__container {
   width: 50%;
+}
+
+.main__container_left {
+  border-right: solid 1px #f0f0f0;
+}
+
+.main__container_right {
+  border-left: solid 1px #f0f0f0;
+}
+
+.main__section{
   color: #4f4f4f;
+  height: 336px;
   padding-left: 15px;
   padding-right: 15px;
   overflow-y: scroll;
 }
 
-.main__section_left {
-  border-right: solid 1px #f0f0f0;
-}
-
-.main__section_right {
-  border-left: solid 1px #f0f0f0;
-}
 
 .main__title {
   font-size: 12px;
@@ -134,6 +139,8 @@ position: relative;
   margin-top: 8px;
   margin-right: 0;
   margin-bottom: 0;
+  padding-left: 15px;
+  padding-right: 15px;
   padding-bottom: 5px;
   border-bottom: solid 1px #f0f0f0;
 }
