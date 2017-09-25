@@ -6,7 +6,9 @@ var template = require('../friendItem.hbs'),
 class FriendsFilter {
     constructor() {
         this.mainContainer = document.getElementById('mainList');
-        this.secondContainer = document.getElementById('secondList');
+        this.secondContainer = document.getElementById('secondList'),
+        this.mainInput = document.getElementById('mainInput'),
+        this.secondInput = document.getElementById('secondInput');
     }
 
     init() {
@@ -53,21 +55,52 @@ class FriendsFilter {
             return csvContent + arr.join('\n');
         }
 
-        function downloadCSV(content) {
+        function downloadCSV(content, fileName) {
             let encodedUri = encodeURI(content),
                 link = document.createElement('a'),
                 footer = document.getElementById('footer');
 
             link.setAttribute('href', encodedUri);
-            link.setAttribute('download', 'friendList.csv');
+            link.setAttribute('download', fileName);
             link.style.display = 'none';
             footer.appendChild(link);
             
             link.click();
         }
 
-        downloadCSV(generateCSV([...mainContent], 'Ваши друзья'));
-        downloadCSV(generateCSV([...secondContent], 'Друзья в списке'));
+        downloadCSV(generateCSV([...mainContent], 'Ваши друзья'), 'mainFrinedList.csv');
+        downloadCSV(generateCSV([...secondContent], 'Друзья в списке'), 'secondFriendList.csv');
+    }
+
+    fiterList(location) {
+        let inputValue,
+            list;
+
+        if (location === 'main') {
+            inputValue = this.mainInput.value,
+            list = this.mainContainer.querySelectorAll('.friend');
+        } else if (location === 'second') {
+            inputValue = this.secondInput.value,
+            list = this.secondContainer.querySelectorAll('.friend');
+        } else {
+            console.log('Ошибка фильтрации, передайте верный location');
+        }
+
+        for (let i = 0; i < list.length; i++) {
+            if (!this.isMatching(list[i].innerText, inputValue) && inputValue !== '') {
+                list[i].style.display = 'none';
+            } else {
+                list[i].style.display = 'flex';
+            }
+        }
+    }
+
+    isMatching(full, chunk) {
+        if (full.toLowerCase().indexOf(chunk.toLowerCase()) !== -1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     addListeners() {
@@ -76,9 +109,7 @@ class FriendsFilter {
             saveButton = document.getElementById('saveButton'),
             exportButton = document.getElementById('exportButton'),
             refreshButton = document.getElementById('refreshButton'),
-            mainHead = document.getElementById('mainHead'),
-            mainInput = document.getElementById('mainInput'),
-            secondInput = document.getElementById('secondInput');
+            mainHead = document.getElementById('mainHead');
 
         function makeDataArray(nodeList) {
             let result = {
@@ -97,24 +128,6 @@ class FriendsFilter {
             return result;
         }
 
-        function isMatching(full, chunk) {
-            if (full.toLowerCase().indexOf(chunk.toLowerCase()) !== -1) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        function fiterList(list, filterValue) {
-            for (let i = 0; i < list.length; i++) {
-                if (!isMatching(list[i].innerText, filterValue) && filterValue !== '') {
-                    list[i].style.display = 'none';
-                } else {
-                    list[i].style.display = 'flex';
-                }
-            }
-        }
-
         // add and close buttons
         mainWrap.addEventListener('click', (e) => {
             if (!e.target.classList.contains('friend__icon')) {
@@ -126,11 +139,13 @@ class FriendsFilter {
 
                 friend.remove();
                 this.secondContainer.appendChild(friend);
+                this.fiterList('second');
             } else if (e.target.closest('ul').getAttribute('id') === 'secondList') {
                 let friend = e.target.closest('.friend');
 
                 friend.remove();
                 this.mainContainer.appendChild(friend);
+                this.fiterList('main');
             }
             
         });
@@ -153,8 +168,8 @@ class FriendsFilter {
         // refresh button
         refreshButton.addEventListener('click', () => {
             localStorage.clear();
-            mainInput.value = '';
-            secondInput.value = '';
+            this.mainInput.value = '';
+            this.secondInput.value = '';
             this.mainContainer.innerHTML = '';
             this.secondContainer.innerHTML = '';
             this.getFriendList();
@@ -171,15 +186,9 @@ class FriendsFilter {
                 return;
             }
             if (e.target.getAttribute('id') === 'mainInput') {
-                let inputValue = mainInput.value,
-                    list = this.mainContainer.querySelectorAll('.friend');
-
-                fiterList(list, inputValue);
+                this.fiterList('main');
             } else if (e.target.getAttribute('id') === 'secondInput') {
-                let inputValue = secondInput.value,
-                    list = this.secondContainer.querySelectorAll('.friend');
-
-                fiterList(list, inputValue);
+                this.fiterList('second');
             }
         })
     }
@@ -248,6 +257,12 @@ class FriendsFilter {
                 e.target.querySelector('.main__list').appendChild(element);
             } else if (e.target.closest('.friend')) {
                 e.target.closest('.main__list').insertBefore(element, e.target.closest('.friend').nextElementSibling);
+            }
+
+            if (e.target.closest('.main__container_left')) {
+                this.fiterList('main');
+            } else if (e.target.closest('.main__container_right')) {
+                this.fiterList('second');
             }
         })
     }
