@@ -1,1 +1,1 @@
-﻿This app is allow you to import your friend list from VK. Then you can filter this list and save the changes.
+﻿This app is allow you to import your friend list from VK. Then you can filter this list, save the changes and generate the .csv files.
