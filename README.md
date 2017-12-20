@@ -20,7 +20,7 @@
 ##### Склонируйте репозиторий и перейдите в папку проекта
 
 ```
-git clone git@github.com/Ustasjs/friendsFilterVK.git
+git clone git://github.com/Ustasjs/friendsFilterVK.git
 ```
 
 ##### Установите модули локально
