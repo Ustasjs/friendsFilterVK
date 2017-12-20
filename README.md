@@ -1,1 +1,36 @@
-﻿This app is allow you to import your friend list from VK. Then you can filter this list, save the changes and generate the .csv files.
+﻿# Приложение для работы с VK API
+> - При первом входе необходимо авторизоваться в VK (всплывающее окно)
+> - Формируется общий список друзей в VK
+> - С помощью контролов или dnd можно сформировать отдельный список друзей (соседнее поле)
+> - Выдача каждого списка фильтруется вводом в соответствующий инпут
+> - Реализовано сохранение состояние приложения в LocalStorage
+> - Реализовано dnd альтернативным способом (не HTML5 API)
+> - Сформированные списки можно сохранить в CSV файл
+
+## Технологии
+- JavaScript
+- Handlebars
+- CSS3
+- VK API
+
+
+
+## Старт проекта
+
+##### Склонируйте репозиторий и перейдите в папку проекта
+
+```
+git clone git@github.com/Ustasjs/friendsFilterVK.git
+```
+
+##### Установите модули локально
+
+```
+npm install | yarn install
+```
+
+##### Запустите сборку проекта
+
+```
+npm start | yarn start
+```
